@@ -1,2 +1,5 @@
 # IoT
-Alle Praktika 
+Praktikum 1 
+
+- Vorarbeit 
+- Praktikum selber 
