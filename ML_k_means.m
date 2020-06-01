@@ -2,14 +2,13 @@
 
 %Einlesen der Testdaten mit relevanten Merkmalen
 clear all;
-clear all;
 close all;
 %close all
 load fisheriris
 X = meas(:,3:4);
 %Erzeugen des Diagramm mit Testdaten
-figure;
-%plot(X(:,1),X(:,2),'ko','Markersize',2,'MarkerEdgeColor','black');
+figure(1);
+plot(X(:,1),X(:,2),'k.','Markersize',5,'MarkerEdgeColor','black');
 
 title 'Iris Daten'
 xlabel 'Länge Blütenblatt in cm';
@@ -132,7 +131,11 @@ end
 
 %Zugehöroges Diagramm
 %Objekte darstellen
-plot(X(:,1),X(:,2),'ko','Markersize',2,'MarkerEdgeColor','black');
+figure(2);
+plot(X(:,1),X(:,2),'k.','Markersize',5,'MarkerEdgeColor','black');
+title 'Iris Daten'
+xlabel 'Länge Blütenblatt in cm';
+ylabel 'Breite Blütenblatt in cm';
 hold on;
 %Finalen Marker
 for i=1:k,
@@ -144,7 +147,7 @@ for i=1:k,
             T = [1 0 1];
         end
         plot(startcentx(i,1),startcenty(i,1),'Marker','*','Markersize',5,'MarkerEdgeColor',T);
-        hold on;
+        
 end
 %Samples
 for i=1:anzahlc1,
