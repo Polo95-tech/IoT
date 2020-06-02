@@ -24,13 +24,10 @@ c2x=0;
 c2y=0;
 c3x=0;
 c3y=0;
-%Anzahl als Teiler zu neu Bestimmung
-anzahlc1=0;
-anzahlc2=0;
-anzahlc3=0;
 %Input werte in x-& y-Koordinaten aufteilen
 x=(X(:,1));
 y=(X(:,2));
+anzahlwerte = length(x);
 %Zufälligen Start Centroiden erzeugen aus Maximum & Minimum 
 %Bestimmung der Minima & Maxima der jeweiligen Koordinaten
 value_x_max = max(x(:));
@@ -47,21 +44,30 @@ startcenty=rand(3,1)*range([value_y_min value_y_max])+min([value_y_min value_y_m
 display("Start Centroiden rot: ("+startcentx(1,1)+";"+startcenty(1,1)+")");
 display("Start Centroiden green: ("+startcentx(2,1)+";"+startcenty(2,1)+")");
 display("Start Centroiden magenta: ("+startcentx(3,1)+";"+startcenty(3,1)+")");
-%Bedinung
+%Für die Abbruchbedinung
 abbruch=true;
+%Variable zur Speicherung der vorrigen Anzahl der Werte, um Veränderung
+%deutlich zu machen
+azc1 = 0;
+azc2 = 0;
+azc3 = 0;
+%Anzahl zu Bestimmung der Cluster/Samples
+anzahlc1=0;
+anzahlc2=0;
+anzahlc3=0;
 while abbruch == true
     %Bestimmen der Distanzen durch vorgabe des Algorithmus
-    distanz=rand(150,3);
+    distanz=rand(anzahlwerte,3);
     for i=1:k,
-        for j=1:150,
+        for j=1:anzahlwerte,
             distanz(j,i)=((x(j)-startcentx(i))^2)+((y(j)-startcenty(i))^2);
         end
     end
-    samplex=rand(150,3);
-    sampley=rand(150,3);
+    samplex=rand(anzahlwerte,3);
+    sampley=rand(anzahlwerte,3);
     %Init mit Null
     for i=1:3,
-        for j=1:150,
+        for j=1:anzahlwerte,
             samplex(j,i)=0.0;
             sampley(j,i)=0.0;
         end
@@ -71,7 +77,7 @@ while abbruch == true
     anzahlc3=0;
     %Zuordnung zu den Centroiden mit Summierung der Werte & Mitzählen der
     %Anzahl an Werten
-    for i=1:150,
+    for i=1:anzahlwerte,
             [value,stelle]=min(distanz(i,:));
             if stelle == 1
                 c1x = c1x + x(i);
@@ -95,19 +101,27 @@ while abbruch == true
     end
     %Bestimmung der neuen Centroiden + Abbruch Kriterium falls einer keiner
     %Distanz mehr hinzugefügt werden kann.
-    if anzahlc1 == 0
+    %Anzahl der vorrigen Cluster sichern, um Abbruch zu Garantieren
+    %Abbruchkriterium ist wenn sich die Anzahl der Cluster nicht mehr
+    %ändert.
+    azc1 = anzahlc1;
+    azc2 = anzahlc2;
+    azc3 = anzahlc3;
+    if anzahlc1 == azc1
         abbruch = false;
-    elseif anzahlc2 == 0
+    elseif anzahlc2 == azc2
         abbruch = false;
-    elseif anzahlc3 == 0
+    elseif anzahlc3 == azc3
         abbruch = false;
     else
-        startcentx(1)= (c1x/anzahlc1); 
-        startcenty(1)=(c1y/anzahlc1);
-        startcentx(2)= (c2x/anzahlc2); 
-        startcenty(2)=(c2y/anzahlc2);
-        startcentx(3)= (c3x/anzahlc3); 
-        startcenty(3)=(c3y/anzahlc3);
+        %Neu Berechnung der Centriaden
+        startcentx(1)= (c1x/anzahlwerte); 
+        startcenty(1)=(c1y/anzahlwerte);
+        startcentx(2)= (c2x/anzahlwerte); 
+        startcenty(2)=(c2y/anzahlwerte);
+        startcentx(3)= (c3x/anzahlwerte); 
+        startcenty(3)=(c3y/anzahlwerte);
+        
     end
 end
 
@@ -128,7 +142,6 @@ display("Finaler Centroid 3 (Magenta: ["+startcentx(3)+","+startcenty(3)+"] mit 
 for i=1:anzahlc3,
     display("["+samplex(i,3)+","+sampley(i,3)+"]");
 end
-
 %Zugehöroges Diagramm
 %Objekte darstellen
 figure(2);
@@ -149,7 +162,7 @@ for i=1:k,
         plot(startcentx(i,1),startcenty(i,1),'Marker','*','Markersize',5,'MarkerEdgeColor',T);
         
 end
-%Samples
+%Cluster Zugehörigkeit als Diagramm
 for i=1:anzahlc1,
     plot(samplex(i,1),sampley(i,1),'Marker','o','Markersize',5,'MarkerEdgeColor',[1 0 0]);
 end
@@ -158,5 +171,4 @@ for i=1:anzahlc2,
 end
 for i=1:anzahlc3,
      plot(samplex(i,3),sampley(i,3),'Marker','o','Markersize',5,'MarkerEdgeColor',[1 0 1]);
-end
-
+end 
