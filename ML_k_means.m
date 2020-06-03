@@ -55,9 +55,10 @@ azc3 = 0;
 anzahlc1=0;
 anzahlc2=0;
 anzahlc3=0;
+%Distanzmatrix der Größe Anzahl der Werte für 3 Centroiden
+distanz=rand(anzahlwerte,3);
 while abbruch == true
-    %Bestimmen der Distanzen durch vorgabe des Algorithmus
-    distanz=rand(anzahlwerte,3);
+    %Bestimmen der Distanzen durch Vorgabe des Algorithmus
     for i=1:k,
         for j=1:anzahlwerte,
             distanz(j,i)=((x(j)-startcentx(i))^2)+((y(j)-startcenty(i))^2);
@@ -78,11 +79,16 @@ while abbruch == true
     %Zuordnung zu den Centroiden mit Summierung der Werte & Mitzählen der
     %Anzahl an Werten
     for i=1:anzahlwerte,
+            %Bestimmung des minimalen Distanz von einem Centroiden zu einem
+            %Cluster
             [value,stelle]=min(distanz(i,:));
+            %Stelle 1 = Centroid 1 Zuordnung
             if stelle == 1
                 c1x = c1x + x(i);
                 c1y = c1y + y(i);
                 anzahlc1 = anzahlc1 + 1;
+                %Sichern der Koordinaten der Samples/Cluster zum
+                %entsprechenden Centroiden
                 samplex(anzahlc1,stelle) = x(i);
                 sampley(anzahlc1,stelle) = y(i);
             elseif stelle == 2
@@ -115,12 +121,12 @@ while abbruch == true
         abbruch = false;
     else
         %Neu Berechnung der Centriaden
-        startcentx(1)= (c1x/anzahlwerte); 
-        startcenty(1)=(c1y/anzahlwerte);
-        startcentx(2)= (c2x/anzahlwerte); 
-        startcenty(2)=(c2y/anzahlwerte);
-        startcentx(3)= (c3x/anzahlwerte); 
-        startcenty(3)=(c3y/anzahlwerte);
+        startcentx(1)= (c1x/anzahlc1); 
+        startcenty(1)=(c1y/anzahlc1);
+        startcentx(2)= (c2x/anzahlc2); 
+        startcenty(2)=(c2y/anzahlc2);
+        startcentx(3)= (c3x/anzahlc3); 
+        startcenty(3)=(c3y/anzahlc3);
         
     end
 end
