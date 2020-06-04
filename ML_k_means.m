@@ -1,4 +1,7 @@
 % Marco Döhring
+% Matrikel-Nr.: 10052723
+% Praktikumsaufgabe 1
+% k_means Algorithmus
 
 %Einlesen der Testdaten mit relevanten Merkmalen
 clear all;
@@ -9,13 +12,12 @@ X = meas(:,3:4);
 %Erzeugen des Diagramm mit Testdaten
 figure(1);
 plot(X(:,1),X(:,2),'k.','Markersize',5,'MarkerEdgeColor','black');
-
 title 'Iris Daten'
 xlabel 'Länge Blütenblatt in cm';
 ylabel 'Breite Blütenblatt in cm';
 %mit hold on weitere plot Befehle zu dem aktuellen Diagramm einfügen
 hold on;
-%Wahl der Iterationen für den Algorithmus
+%Wahl der Anzahl an Centriaden für den Algorithmus
 k=3;
 %Variblen für die neue Centriaden
 c1x=0;
