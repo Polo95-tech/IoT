@@ -109,7 +109,7 @@ while abbruch == true
     end
     %Bestimmung der neuen Centroiden + Abbruch Kriterium falls einer keiner
     %Distanz mehr hinzugefügt werden kann.
-    %Anzahl der vorrigen Cluster sichern, um Abbruch zu Garantieren
+    %Anzahl der vorherigen Cluster sichern, um Abbruch zu garantieren
     %Abbruchkriterium ist wenn sich die Anzahl der Cluster nicht mehr
     %ändert.
     azc1 = anzahlc1;
