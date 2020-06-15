@@ -31,15 +31,13 @@ anzahlwerte = length(x);
 PX = [2.5 0.75; 5 1.5; 6 1.75];
 %Anzahl der neuen Messpunkte
 anzahl_dp = 3;
-%Startpunkte sidn die neuen Messpunkte in x/y Koordinaten aufgeteilt
+%Startpunkte sind die neuen Messpunkte in x/y Koordinaten aufgeteilt
 startcentx=rand(3,1);
 startcenty=rand(3,1);
 for i=1:anzahl_dp,
     startcentx(i)= PX(i,1);
     startcenty(i)= PX(i,2);
 end
-%for i=1:anzahl_dp,
-%    startcentx(i) = PX(0,0
 %Distanzmatrix der Größe Anzahl der Werte für 3 Datenpunkte
 distanz=rand(anzahlwerte,anzahl_dp);
 %Bestimmen der Distanzen durch Vorgabe euklidische Distanz
@@ -48,10 +46,10 @@ for i=1:anzahl_dp,
         distanz(j,i)=((x(j)-startcentx(i))^2)+((y(j)-startcenty(i))^2);
     end
 end
-%Distanz Kopie
+%Distanz Kopie, auf der Kopie werden Änderungen vorgenommen
 distanz_kp=distanz;
 %Bestimmung der k-Nachbarn anhand der Distanzen
-%mit zwischenspeicherung der Werte in einem Vektor
+%Mit Zwischenspeicherung der Werte in einem Vektor
 samplex=rand(k,3);
 sampley=rand(k,3);
 distanz_nb=rand(k,3);
@@ -69,9 +67,12 @@ for i=1:k,
         else
             zw(i,j) = 3;
         end
+        %Nachbarn Koordinaten & Wert der Distanz sichern
         samplex(i,j)=x(stelle);
         sampley(i,j)=y(stelle);
         distanz_nb(i,j)=value;
+        %In Kpoie der Distanzmatrix Wert auf einen Hohen setzen damit
+        %dieser nicht mehr mit berechnet wird. 
         distanz_kp(stelle,j)= 1000;
     end
     
@@ -88,7 +89,7 @@ for i=1:3,
     end
 end
 %Hier bestimmt man die Anzahl von Nachbarn an deren Klasse sie angehören
-%Hinter für den Mehrheitsentscheid
+%Für den Mehrheitsentscheid
 for i=1:3,
     for j=1:k,
         if zw(j,i) == 1
@@ -103,7 +104,8 @@ end
 %Ausgaben
 %Ergebnis 1 ==> Daten der Nachbarn
 %Für jeden Datenpunkt einzeln
-display('Zu Ergebnis 1 ==> Jeweiligen 7 Nachbarn');
+display('Zu Ergebnis 1 ==> Jeweiligen 7 Nachbarn ');
+display('Spalte 1 = X-Koordinate & Spalte 2 = Y-Koordinate ');
 Datenpunkt_1= [samplex(:,1) sampley(:,1)];
 display(Datenpunkt_1);
 Datenpunkt_2= [samplex(:,2) sampley(:,2)];
